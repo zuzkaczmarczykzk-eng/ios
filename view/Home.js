@@ -17,7 +17,7 @@ import { TouchableOpacity } from 'react-native';
 const API_KEY = 'dfa2c93b677c9ff12e6dd7828c4c7d60';
 // exp://192.168.0.231:8082
 export default function Home({ navigation }) {
-  const cities = ['Prague', 'London', 'Tokyo', 'Paris', 'Warsaw', 'Berlin', 'Madrid'];
+  const cities = ['Praga', 'Londyn', 'Tokyo', 'Paris', 'Warszawa', 'Berlin', 'Madryt'];
   const [weatherData, setWeatherData] = useState([]);
   const [search, setSearch] = useState('');
 
