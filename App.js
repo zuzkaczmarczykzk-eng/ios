@@ -3,6 +3,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import Home from './view/Home';
 import SecWindow from './view/SecWindow';
+import WeatherForecast from './view/WeatherForecast';
 
 const Stack = createNativeStackNavigator();
 
@@ -18,6 +19,11 @@ export default function App() {
         <Stack.Screen
           name="SecWindow"
           component={SecWindow}
+        />
+
+        <Stack.Screen
+          name="WeatherForecast"
+          component={WeatherForecast}
         />
       </Stack.Navigator>
     </NavigationContainer>
