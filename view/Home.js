@@ -1,23 +1,25 @@
 import { useEffect, useState } from 'react';
+
 import {
   View,
   Text,
   TextInput,
   FlatList,
   Image,
-  KeyboardAvoidingView,
-  Platform,
 } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
-import { LinearGradient } from 'expo-linear-gradient';
-import styles from './styles/HomeStyle';
+
 import { TouchableOpacity } from 'react-native';
 
+import { Ionicons } from '@expo/vector-icons';
 
-const API_KEY = 'dfa2c93b677c9ff12e6dd7828c4c7d60';
-// exp://192.168.0.231:8082
+import { LinearGradient } from 'expo-linear-gradient';
+
+import styles from './styles/HomeStyle';
+
+import {getWeatherIcon,cities,} from '../utils/WeatherUtils';
+import {getCurrentWeather,} from '../services/WeatherService';
+
 export default function Home({ navigation }) {
-  const cities = ['Prague', 'London', 'Tokyo', 'Paris', 'Warsaw', 'Berlin', 'Madrid'];
   const [weatherData, setWeatherData] = useState([]);
   const [search, setSearch] = useState('');
 
@@ -28,18 +30,24 @@ export default function Home({ navigation }) {
   const fetchWeather = async () => {
     try {
       const responses = await Promise.all(
-        cities.map(async (city) => {
-          const response = await fetch(
-            `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}&units=metric`
-          );
-
-          return response.json();
-        })
+        cities.map((city) =>
+          getCurrentWeather(city.query)
+        )
       );
 
-      setWeatherData(
-        responses.filter((data) => data.cod === 200)
-      );
+      const mappedData = responses.map((item) => {
+        const matchedCity = cities.find(
+          (city) => city.query === item.name
+        );
+
+        return {
+          ...item,
+          displayName:
+            matchedCity?.label || item.name,
+        };
+      });
+
+      setWeatherData(mappedData);
 
     } catch (error) {
       console.log(error);
@@ -47,24 +55,10 @@ export default function Home({ navigation }) {
   };
 
   const filteredCities = weatherData.filter((item) =>
-    item.name?.toLowerCase().includes(search.toLowerCase())
+    item.displayName
+      ?.toLowerCase()
+      .includes(search.toLowerCase())
   );
-
-  const getWeatherIcon = (condition) => {
-    switch (condition) {
-      case 'Clouds':
-        return 'https://cdn-icons-png.flaticon.com/512/414/414825.png';
-
-      case 'Rain':
-        return 'https://cdn-icons-png.flaticon.com/512/3351/3351979.png';
-
-      case 'Clear':
-        return 'https://cdn-icons-png.flaticon.com/512/869/869869.png';
-
-      default:
-        return 'https://cdn-icons-png.flaticon.com/512/414/414825.png';
-    }
-  };
 
   return (
     <LinearGradient
@@ -87,7 +81,6 @@ export default function Home({ navigation }) {
           size={24}
           color="#666"
         />
-
         <TextInput
           placeholder="Szukaj..."
           placeholderTextColor="#b8b8b8"
@@ -96,12 +89,11 @@ export default function Home({ navigation }) {
           onChangeText={setSearch}
         />
       </View>
-
       <FlatList
         data={filteredCities}
 
         keyExtractor={(item) =>
-          item.id.toString()
+          item.name
         }
 
         renderItem={({ item }) => (
@@ -109,7 +101,11 @@ export default function Home({ navigation }) {
             onPress={() =>
               navigation.navigate(
                 'SecWindow',
-                { city: item.name }
+                {
+                  city: item.name,
+                  displayName:
+                    item.displayName,
+                }
               )
             }
           >
@@ -134,7 +130,7 @@ export default function Home({ navigation }) {
 
                 <View style={styles.textContainer}>
                   <Text style={styles.city}>
-                    {item.name}
+                    {item.displayName}
                   </Text>
 
                   <Text style={styles.country}>
