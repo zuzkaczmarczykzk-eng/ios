@@ -100,7 +100,7 @@ export default function Home({ navigation }) {
           <TouchableOpacity
             onPress={() =>
               navigation.navigate(
-                'SecWindow',
+                'CityWeatherDetails',
                 {
                   city: item.name,
                   displayName:
