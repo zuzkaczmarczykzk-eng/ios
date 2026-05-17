@@ -80,9 +80,9 @@ export default function CityWeatherDetails({ route, navigation }) {
     : '—';
 
   const STATS = [
-    { icon: '💧', label: 'Humidity',   value: `${source.humidity}%` },
-    { icon: '💨', label: 'Wind',       value: `${source.windSpeed} m/s` },
-    { icon: '👁️', label: 'Visibility', value: visibilityLabel },
+    { icon: '💧', label: 'Wilgotność',   value: `${source.humidity}%` },
+    { icon: '💨', label: 'Wiatr',       value: `${source.windSpeed} m/s` },
+    { icon: '👁️', label: 'Widoczność', value: visibilityLabel },
   ];
 
   const condition = current.weather[0].main;
