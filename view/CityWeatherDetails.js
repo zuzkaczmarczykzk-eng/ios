@@ -44,19 +44,6 @@ export default function CityWeatherDetails({ route, navigation }) {
       .finally(() => setLoading(false));
   }, [city]);
 
-  if (loading || !current) {
-    return (
-      <LinearGradient
-        colors={['#1f6d8c', '#61b481', '#e1d677']}
-        start={{ x: 0.1, y: 0 }}
-        end={{ x: 0.9, y: 1 }}
-        style={[styles.gradient, { justifyContent: 'center', alignItems: 'center' }]}
-      >
-        <ActivityIndicator size="large" color="#fff" />
-      </LinearGradient>
-    );
-  }
-
   if (error) {
     return (
       <LinearGradient
@@ -66,6 +53,19 @@ export default function CityWeatherDetails({ route, navigation }) {
         style={[styles.gradient, { justifyContent: 'center', alignItems: 'center' }]}
       >
         <Text style={{ color: '#fff', fontSize: 16 }}>{error}</Text>
+      </LinearGradient>
+    );
+  }
+
+  if (loading || !current) {
+    return (
+      <LinearGradient
+        colors={['#1f6d8c', '#61b481', '#e1d677']}
+        start={{ x: 0.1, y: 0 }}
+        end={{ x: 0.9, y: 1 }}
+        style={[styles.gradient, { justifyContent: 'center', alignItems: 'center' }]}
+      >
+        <ActivityIndicator size="large" color="#fff" />
       </LinearGradient>
     );
   }
