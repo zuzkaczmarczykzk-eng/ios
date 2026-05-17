@@ -65,7 +65,7 @@ describe('CityWeatherDetails', () => {
       render(<CityWeatherDetails route={mockRoute} navigation={mockNavigation} />);
 
       expect(screen.queryByText('Warszawa')).toBeNull();
-      expect(screen.queryByText('Humidity')).toBeNull();
+      expect(screen.queryByText('Wilgotność')).toBeNull();
       expect(screen.queryByText('Prognoza na tydzień')).toBeNull();
     });
   });
@@ -77,7 +77,7 @@ describe('CityWeatherDetails', () => {
       await waitFor(() => expect(screen.getByText('Warszawa')).toBeTruthy());
 
       expect(screen.getByText('22°')).toBeTruthy();
-      expect(screen.getByText('Humidity')).toBeTruthy();
+      expect(screen.getByText('Wilgotność')).toBeTruthy();
       expect(screen.getByText('65%')).toBeTruthy();
       expect(screen.getByText('4.2 m/s')).toBeTruthy();
       expect(screen.getByText('9.0 km')).toBeTruthy();
