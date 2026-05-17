@@ -15,7 +15,6 @@ import { cities, getWeatherIcon } from '../utils/WeatherUtils';
 
 export default function CityWeatherDetails({ route, navigation }) {
   const { city, displayName } = route.params;
-  //const cityMappedToPL = cities.find((e) => e.query == city).label;
 
   const [current,      setCurrent]      = useState(null);
   const [hourly,       setHourly]       = useState([]);
@@ -70,7 +69,6 @@ export default function CityWeatherDetails({ route, navigation }) {
     );
   }
 
-  // Źródło danych dla statystyk — wybrana godzina lub bieżąca pogoda
   const source = selectedHour ?? {
     humidity:   current.main.humidity,
     windSpeed:  current.wind.speed,
