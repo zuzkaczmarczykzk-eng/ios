@@ -15,7 +15,6 @@ import { cities, getWeatherIcon } from '../utils/WeatherUtils';
 
 export default function CityWeatherDetails({ route, navigation }) {
   const { city, displayName } = route.params;
-  //const cityMappedToPL = cities.find((e) => e.query == city).label;
 
   const [current,      setCurrent]      = useState(null);
   const [hourly,       setHourly]       = useState([]);
@@ -44,19 +43,6 @@ export default function CityWeatherDetails({ route, navigation }) {
       .finally(() => setLoading(false));
   }, [city]);
 
-  if (loading || !current) {
-    return (
-      <LinearGradient
-        colors={['#1f6d8c', '#61b481', '#e1d677']}
-        start={{ x: 0.1, y: 0 }}
-        end={{ x: 0.9, y: 1 }}
-        style={[styles.gradient, { justifyContent: 'center', alignItems: 'center' }]}
-      >
-        <ActivityIndicator size="large" color="#fff" />
-      </LinearGradient>
-    );
-  }
-
   if (error) {
     return (
       <LinearGradient
@@ -70,7 +56,19 @@ export default function CityWeatherDetails({ route, navigation }) {
     );
   }
 
-  // Źródło danych dla statystyk — wybrana godzina lub bieżąca pogoda
+  if (loading || !current) {
+    return (
+      <LinearGradient
+        colors={['#1f6d8c', '#61b481', '#e1d677']}
+        start={{ x: 0.1, y: 0 }}
+        end={{ x: 0.9, y: 1 }}
+        style={[styles.gradient, { justifyContent: 'center', alignItems: 'center' }]}
+      >
+        <ActivityIndicator size="large" color="#fff" />
+      </LinearGradient>
+    );
+  }
+
   const source = selectedHour ?? {
     humidity:   current.main.humidity,
     windSpeed:  current.wind.speed,
